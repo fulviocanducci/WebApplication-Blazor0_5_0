@@ -3,8 +3,19 @@
 
     void onClickBtnAlert()
     {
-        Client.Library.JsExample.MyAlert("Oi"); 
+        Client.Library.JsExample.MyConsole("Pressione o 1 Botão ...");
+        Client.Library.JsExample
+            .MyAlert("Oi");
     }
+
+    void onClickBtnAlertSweetSuccess()
+    {
+        Client.Library.JsExample.MyConsole("Pressione o 2 Botão ...");
+        Client.Library.JsExample
+            .MySweetAlertSuccess("Test", "Pressione o botão para sair!");
+    }
+
 }
 
 <button onclick="@onClickBtnAlert">Alertando ...</button>
+<button onclick="@onClickBtnAlertSweetSuccess">Alertando ...</button>

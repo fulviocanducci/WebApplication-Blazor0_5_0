@@ -21,6 +21,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="content\sweetalert2.css" />
+    <None Remove="content\sweetalert2.js" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Blazor.Browser" Version="0.5.0" />
     <PackageReference Include="Microsoft.AspNetCore.Blazor.Build" Version="0.5.0" />
   </ItemGroup>

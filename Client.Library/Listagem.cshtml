@@ -1,0 +1,43 @@
+﻿<div>
+    <input class="form-control" type="text" name="newItem" bind="@newItem" />
+</div>
+<div style="margin-top:10px">
+    <button class="btn btn-success btn-block" onclick="@AddItemAsync">Adicionar</button>
+</div>
+<div style="margin-top:10px">
+    @if (Items == null || Items.Count == 0)
+    {
+        <p>
+            <em>Nenhum item na lista ...</em>
+        </p>
+    }
+    else
+    {
+        <ul>
+            @foreach (var item in Items)
+            {
+                <li>@item</li>
+            }
+        </ul>
+    }
+
+</div>
+
+@functions {
+
+    public List<string> Items = new List<string>();
+
+    [Parameter()]
+    string newItem { get; set; } = null;
+
+    protected override void OnInit()
+    {
+        base.OnInit();
+    }
+
+    protected void AddItemAsync()
+    {
+        Items.Add(newItem);
+        newItem = null;
+    }
+}
