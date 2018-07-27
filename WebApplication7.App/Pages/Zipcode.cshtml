@@ -1,0 +1,93 @@
+﻿@page "/zipcode"
+@inject HttpClient Client
+
+<h1>Busca de CEP</h1>
+
+<div>
+    <input type="tel" name="zip" pattern="\d*" class="form-control" maxlength="8" bind="@Zip" required autofocus />
+</div>
+<div style="margin-top:12px;">
+    <button onclick="@OnClickButtonAsync" class="btn btn-info btn-block">Pesquisar</button>
+</div>
+@if (!string.IsNullOrEmpty(StatusString))
+{
+    <div style="margin-top:12px;" class="alert alert-danger" role="alert">
+        @StatusString
+    </div>
+}
+<div style="margin-top:12px;">
+    @if (StatusRequest == true)
+    {
+        <div class="spinner"></div>
+    }
+    else if (StatusRequest == false && Item != null)
+    {
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">CEP</h5>
+                <div>@Item?.Cep</div>
+                <div>@Item?.Logradouro</div>
+                <div>@Item?.Bairro</div>
+                <div>@Item?.Complemento</div>
+                <div>@Item?.Localidade / @Item?.Uf</div>
+                <div>@Item?.Gia</div>
+                <div>@Item?.Ibge</div>
+            </div>
+        </div>
+    }
+</div>
+
+@functions {
+
+string StatusString = null;
+
+bool? StatusRequest = null;
+void ChangeStatusRequest()
+{
+    if (StatusRequest == null)
+    {
+        StatusRequest = true;
+    }
+    else
+    {
+        StatusRequest = !StatusRequest;
+    }
+}
+
+[Parameter()]
+string Zip { get; set; }
+
+Services.ZipCode Item { get; set; }
+
+async Task OnClickButtonAsync()
+{
+    StatusString = null;
+    try
+    {
+        if (Zip?.Length == 8)
+        {
+            ChangeStatusRequest();
+            Item = null;
+            Item = await Client
+                .GetJsonAsync<Services.ZipCode>($"http://viacep.com.br/ws/{Zip}/json/");
+            System.Threading.Thread.Sleep(1500);
+            ChangeStatusRequest();
+            if (!Item)
+            {
+                StatusRequest = null;
+                StatusString = "CEP inválido ...";
+            }
+        }
+        else
+        {
+            StatusRequest = null;
+            StatusString = "CEP inválido ...";
+        }
+    }
+    catch
+    {
+        StatusString = "Error";
+        StatusRequest = null;
+    }
+}
+}
