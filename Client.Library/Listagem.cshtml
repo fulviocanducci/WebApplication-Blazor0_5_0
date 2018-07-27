@@ -37,7 +37,14 @@
 
     protected void AddItemAsync()
     {
-        Items.Add(newItem);
-        newItem = null;
+        if (!string.IsNullOrEmpty(newItem))
+        {
+            Items.Add(newItem);
+            newItem = null;
+        }
+        else
+        {
+            JsExample.MyAlert("Digite o texto");
+        }
     }
 }

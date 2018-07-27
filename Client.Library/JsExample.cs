@@ -1,7 +1,7 @@
 ﻿using Microsoft.JSInterop;
 using System;
 using System.Threading.Tasks;
-
+//https://blogs.msdn.microsoft.com/webdev/2018/07/25/blazor-0-5-0-experimental-release-now-available/
 namespace Client.Library
 {
     public class JsExample
