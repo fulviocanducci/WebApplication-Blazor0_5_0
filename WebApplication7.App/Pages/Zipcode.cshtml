@@ -39,55 +39,55 @@
 
 @functions {
 
-string StatusString = null;
+    string StatusString = null;
 
-bool? StatusRequest = null;
-void ChangeStatusRequest()
-{
-    if (StatusRequest == null)
+    bool? StatusRequest = null;
+    void ChangeStatusRequest()
     {
-        StatusRequest = true;
-    }
-    else
-    {
-        StatusRequest = !StatusRequest;
-    }
-}
-
-[Parameter()]
-string Zip { get; set; }
-
-Services.ZipCode Item { get; set; }
-
-async Task OnClickButtonAsync()
-{
-    StatusString = null;
-    try
-    {
-        if (Zip?.Length == 8)
+        if (StatusRequest == null)
         {
-            ChangeStatusRequest();
-            Item = null;
-            Item = await Client
-                .GetJsonAsync<Services.ZipCode>($"http://viacep.com.br/ws/{Zip}/json/");
-            System.Threading.Thread.Sleep(1500);
-            ChangeStatusRequest();
-            if (!Item)
+            StatusRequest = true;
+        }
+        else
+        {
+            StatusRequest = !StatusRequest;
+        }
+    }
+
+    [Parameter()]
+    string Zip { get; set; }
+
+    Services.ZipCode Item { get; set; }
+
+    async Task OnClickButtonAsync()
+    {
+        StatusString = null;
+        try
+        {
+            if (Zip?.Length == 8)
+            {
+                ChangeStatusRequest();
+                Item = null;
+                Item = await Client
+                    .GetJsonAsync<Services.ZipCode>($"http://viacep.com.br/ws/{Zip}/json/");
+                System.Threading.Thread.Sleep(1500);
+                ChangeStatusRequest();
+                if (!Item)
+                {
+                    StatusRequest = null;
+                    StatusString = "CEP inválido ...";
+                }
+            }
+            else
             {
                 StatusRequest = null;
                 StatusString = "CEP inválido ...";
             }
         }
-        else
+        catch
         {
+            StatusString = "Error";
             StatusRequest = null;
-            StatusString = "CEP inválido ...";
         }
     }
-    catch
-    {
-        StatusString = "Error";
-        StatusRequest = null;
-    }
-}
 }

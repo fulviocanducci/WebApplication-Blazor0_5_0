@@ -1,0 +1,10 @@
+﻿@page "/alert"
+@functions {
+
+    void onClickBtnAlert()
+    {
+        Client.Library.JsExample.MyAlert("Oi"); 
+    }
+}
+
+<button onclick="@onClickBtnAlert">Alertando ...</button>
